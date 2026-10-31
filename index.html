@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Qatra – Every drop counts in Egypt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=Reem+Kufi:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EAF0EE; --surface:#F7FAF9; --ink:#13262F; --muted:#4A6170;
+  --nile:#1C6E8C; --nile-deep:#0E4D64; --papyrus:#4F7F33; --sun:#C98A12; --alert:#A33A3A;
+  --line:#C9D6D3; --water:#5FB3CF;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1D24; --surface:#16272F; --ink:#E4EEF0; --muted:#9DB3BD;
+    --nile:#5FB3CF; --nile-deep:#8FD0E6; --papyrus:#8DBF6A; --sun:#E8B64A; --alert:#E07A6E;
+    --line:#2A414B; --water:#3A8FAD; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1D24; --surface:#16272F; --ink:#E4EEF0; --muted:#9DB3BD;
+  --nile:#5FB3CF; --nile-deep:#8FD0E6; --papyrus:#8DBF6A; --sun:#E8B64A; --alert:#E07A6E;
+  --line:#2A414B; --water:#3A8FAD; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 "Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+h1,h2,h3{font-family:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;line-height:1.1;margin:0 0 .5em}
+h2{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;letter-spacing:-.01em}
+h3{font-size:1.25rem;font-weight:700}
+p{margin:0 0 1em;max-width:68ch}
+a{color:var(--nile)}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:20px;height:58px;overflow-x:auto}
+.brand{display:flex;align-items:baseline;gap:8px;text-decoration:none;color:var(--ink);font:800 1.3rem "Bricolage Grotesque",sans-serif;white-space:nowrap}
+.brand span{font-family:"Reem Kufi",serif;color:var(--nile);font-size:1.1rem}
+nav .links{display:flex;gap:18px;margin-left:auto}
+nav .links a{color:var(--muted);text-decoration:none;font-weight:500;white-space:nowrap;font-size:.95rem}
+nav .links a:hover{color:var(--ink)}
+.hero{padding:56px 0 64px}
+.hero .wrap{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(2.4rem,6vw,4.4rem);font-weight:800;letter-spacing:-.025em}
+.hero p.lead{font-size:1.2rem;color:var(--muted)}
+.btn{display:inline-block;background:var(--nile-deep);color:#fff;border:0;border-radius:999px;padding:13px 24px;font:600 1rem "Instrument Sans",sans-serif;text-decoration:none;cursor:pointer}
+:root[data-theme="dark"] .btn{color:#0F1D24}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn{color:#0F1D24}}
+.btn.ghost{background:transparent;color:var(--nile-deep);box-shadow:inset 0 0 0 2px var(--nile-deep)}
+.tankbox{display:flex;gap:22px;align-items:flex-end;justify-content:center}
+.tank{position:relative;width:120px;height:300px;border:3px solid var(--ink);border-top:0;border-radius:0 0 22px 22px;overflow:hidden;background:var(--surface)}
+.tank .fill{position:absolute;left:0;right:0;bottom:0;height:100%;background:linear-gradient(180deg,var(--water),var(--nile-deep));transition:height 2.6s cubic-bezier(.6,0,.3,1)}
+.tank .fill::before{content:"";position:absolute;top:-6px;left:-20%;width:140%;height:12px;border-radius:50%;background:var(--water);opacity:.7}
+.tank .line{position:absolute;left:0;right:0;border-top:2px dashed var(--alert)}
+.tank .line small{position:absolute;right:4px;top:-20px;font-size:.72rem;color:var(--alert);font-weight:600}
+.tanklegend{font-size:.95rem;max-width:200px}
+.tanklegend .year{font:800 2.6rem/1 "Bricolage Grotesque",sans-serif;color:var(--nile-deep)}
+.tanklegend .val{font:700 1.5rem "Bricolage Grotesque",sans-serif}
+.tanklegend p{color:var(--muted);margin:.4em 0 0}
+section{padding:64px 0;border-top:1px solid var(--line)}
+.intro{color:var(--muted);font-size:1.08rem;margin-bottom:28px}
+.causes{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.cause{border-left:4px solid var(--nile);padding:4px 0 4px 18px}
+.cause.c2{border-color:var(--sun)}
+.cause.c3{border-color:var(--alert)}
+.cause .num{font:800 2rem "Bricolage Grotesque",sans-serif;color:var(--ink);display:block}
+.cause p{color:var(--muted);font-size:.98rem}
+.calc{display:grid;grid-template-columns:1.15fr 1fr;gap:36px;align-items:start}
+.qs{display:grid;gap:18px}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.q label.t{display:block;font-weight:600;margin-bottom:8px}
+.q .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.q input[type=range]{flex:1;min-width:150px;accent-color:var(--nile)}
+.q output{font:700 1.1rem "Bricolage Grotesque",sans-serif;min-width:3.5ch;text-align:right}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-top:10px}
+.seg button{background:transparent;border:0;padding:7px 14px;font:500 .9rem "Instrument Sans",sans-serif;color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--nile-deep);color:#fff}
+:root[data-theme="dark"] .seg button[aria-pressed="true"]{color:#0F1D24}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{color:#0F1D24}}
+.result{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);background:var(--surface);border:2px solid var(--ink);border-radius:18px;padding:24px}
+.result .big{font:800 clamp(3rem,8vw,4.6rem)/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.03em}
+.result .unit{color:var(--muted);font-weight:500}
+.verdict{margin:12px 0 18px;font-weight:600}
+.bars{display:grid;gap:8px;margin-bottom:18px}
+.bar{display:grid;grid-template-columns:96px 1fr 52px;gap:10px;align-items:center;font-size:.88rem}
+.bar .track{height:10px;background:var(--line);border-radius:6px;overflow:hidden}
+.bar .track i{display:block;height:100%;background:var(--nile);border-radius:6px;transition:width .4s}
+.bar span:last-child{text-align:right;color:var(--muted)}
+.save{background:color-mix(in srgb,var(--papyrus) 14%,transparent);border-radius:12px;padding:14px 16px}
+.save strong{color:var(--papyrus)}
+.note{font-size:.82rem;color:var(--muted);margin-top:12px}
+.chal{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;list-style:none;padding:0;margin:0 0 20px}
+.chal label{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer}
+.chal input{width:20px;height:20px;margin-top:3px;accent-color:var(--papyrus);flex:none}
+.chal label:has(input:checked){border-color:var(--papyrus)}
+.chal small{display:block;color:var(--muted)}
+.progress{display:flex;align-items:center;gap:14px;font-weight:600}
+.progress .track{flex:1;max-width:360px;height:12px;background:var(--line);border-radius:6px;overflow:hidden}
+.progress .track i{display:block;height:100%;width:0;background:var(--papyrus);transition:width .4s}
+.quiz{max-width:720px}
+.quiz .qcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px}
+.quiz .opts{display:grid;gap:10px;margin:16px 0}
+.quiz .opts button{text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:500 1rem "Instrument Sans",sans-serif;color:var(--ink);cursor:pointer}
+.quiz .opts button.right{border-color:var(--papyrus);background:color-mix(in srgb,var(--papyrus) 16%,transparent)}
+.quiz .opts button.wrong{border-color:var(--alert);background:color-mix(in srgb,var(--alert) 12%,transparent)}
+.quiz .fb{min-height:1.6em;color:var(--muted)}
+.quiz .meta{color:var(--muted);font-size:.9rem;margin-bottom:6px}
+.stories{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+.story h3{margin-bottom:.3em}
+.story .fig{font:800 2.4rem "Bricolage Grotesque",sans-serif;color:var(--nile-deep);display:block;margin-bottom:6px}
+.story p{color:var(--muted)}
+.about{display:grid;grid-template-columns:1.4fr 1fr;gap:36px}
+.sdg{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.sdg div{border-radius:12px;padding:14px 16px;color:#fff;min-width:150px}
+.sdg .s6{background:#26BDE2;color:#06303B}
+.sdg .s13{background:#3F7E44}
+.sdg b{display:block;font:800 1.6rem "Bricolage Grotesque",sans-serif}
+.sources{font-size:.88rem;color:var(--muted);padding-left:18px}
+.sources li{margin-bottom:6px}
+footer{padding:28px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+@media (max-width:860px){
+  .hero .wrap,.calc,.stories,.about{grid-template-columns:1fr}
+  .causes{grid-template-columns:1fr}
+  .chal{grid-template-columns:1fr}
+  .result{position:static}
+  nav .links{gap:14px}
+}
+</style>
+</head>
+<body>
+<nav aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top">Qatra <span lang="ar">قطرة</span></a>
+    <div class="links">
+      <a href="#problem">The problem</a>
+      <a href="#calculator">Calculator</a>
+      <a href="#challenge">Challenge</a>
+      <a href="#quiz">Quiz</a>
+      <a href="#stories">Success stories</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <h1>Egypt’s water is running low. Your tap is part of the answer.</h1>
+      <p class="lead">In 1960 every Egyptian had about 2,000&nbsp;m³ of water a year. Today it’s under 500&nbsp;m³, half the UN water-poverty line. Find out how much you use, and how to use less.</p>
+      <p><a class="btn" href="#calculator">Calculate my water use</a>&nbsp; <a class="btn ghost" href="#problem">Why it matters</a></p>
+    </div>
+    <div class="tankbox" aria-label="Water per person in Egypt fell from about 2,000 cubic metres in 1960 to under 500 today">
+      <div class="tank" aria-hidden="true">
+        <div class="fill" id="fill"></div>
+        <div class="line" style="bottom:50%"><small>poverty line</small></div>
+      </div>
+      <div class="tanklegend">
+        <div class="year" id="tyear">1960</div>
+        <div class="val" id="tval">≈ 2,000 m³</div>
+        <p>water per person per year</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="wrap">
+    <h2>Why Egypt is short of water</h2>
+    <p class="intro">Egypt gets almost all its fresh water from the Nile, and its share is fixed at 55.5 billion m³ a year. Demand keeps rising while supply stays flat, and climate change is making the gap wider.</p>
+    <div class="causes">
+      <div class="cause">
+        <span class="num">&lt; 500 m³</span>
+        <h3>More people, same river</h3>
+        <p>The population has grown from about 26 million in 1960 to over 105 million, so the same Nile share is split many more ways. Egypt fell below the 1,000&nbsp;m³ water-poverty line in 1992.</p>
+      </div>
+      <div class="cause c2">
+        <span class="num">≈ 80%</span>
+        <h3>Thirsty fields</h3>
+        <p>Agriculture uses about four-fifths of Egypt’s fresh water, mostly through flood irrigation. Modern drip and sprinkler systems cover only about 10% of irrigated land.</p>
+      </div>
+      <div class="cause c3">
+        <span class="num">+ heat, + sea</span>
+        <h3>A changing climate</h3>
+        <p>Higher temperatures raise evaporation and crop water needs. Rising seas push salt water into the Nile Delta’s groundwater and soil, Egypt’s most fertile farmland.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="calculator">
+  <div class="wrap">
+    <h2>How much water do you use a day?</h2>
+    <p class="intro">Move the sliders to match a normal day at home. Each habit has a careful and a wasteful version; switch them to see the difference.</p>
+    <div class="calc">
+      <div class="qs" id="qs"></div>
+      <aside class="result" aria-live="polite">
+        <div><span class="big" id="total">0</span> <span class="unit">litres per person per day</span></div>
+        <div class="verdict" id="verdict"></div>
+        <div class="bars" id="bars"></div>
+        <div class="save" id="save"></div>
+        <p class="note">Estimates use typical fixture flow rates (for example about 9 L a minute for a standard shower and 9 L for an older toilet cistern). Your real use depends on your taps and pressure.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section id="challenge">
+  <div class="wrap">
+    <h2>The 30-day Qatra challenge</h2>
+    <p class="intro">Pick the habits you’ll keep for a month. Your ticks are saved in this browser, so you can come back and update them.</p>
+    <ul class="chal" id="chal"></ul>
+    <div class="progress"><span id="pcount">0 of 8 habits</span><div class="track"><i id="pbar"></i></div></div>
+  </div>
+</section>
+
+<section id="quiz">
+  <div class="wrap">
+    <h2>Test yourself</h2>
+    <p class="intro">Five quick questions about water in Egypt.</p>
+    <div class="quiz"><div class="qcard" id="qcard"></div></div>
+  </div>
+</section>
+
+<section id="stories">
+  <div class="wrap">
+    <h2>It can be done</h2>
+    <div class="stories">
+      <div class="story">
+        <span class="fig">−48%</span>
+        <h3>Cape Town avoided “Day Zero”</h3>
+        <p>During a three-year drought, Cape Town, South Africa, came close to turning off household taps. A city-wide information campaign, water limits and higher tariffs cut median household use from about 540 to 280 litres a day between 2015 and 2018, and the taps never ran dry.</p>
+      </div>
+      <div class="story">
+        <span class="fig">5.6 million m³</span>
+        <h3>Bahr El-Baqar gives water a second life</h3>
+        <p>Opened in 2021 east of the Suez Canal, Egypt’s Bahr El-Baqar plant treats about 5.6 million m³ of drainage water a day, around 2 billion m³ a year, for farms in Sinai. It holds Guinness World Records as the largest water treatment plant on Earth.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about">
+    <div>
+      <h2>About this project</h2>
+      <p>Qatra (Arabic for “drop”) is a student awareness project for the course GEO217 at Alamein International University. It targets two UN Sustainable Development Goals and aims to help young Egyptians see their own water footprint and change one habit at a time.</p>
+      <div class="sdg">
+        <div class="s6"><b>SDG 6</b>Clean water and sanitation</div>
+        <div class="s13"><b>SDG 13</b>Climate action</div>
+      </div>
+    </div>
+    <div>
+      <h3>Sources</h3>
+      <ul class="sources">
+        <li>Ahram Online (2026). Egypt’s per capita water share falls below 500 cubic metres.</li>
+        <li>Abd El Azim, Moghazy &amp; Moghazy (2025). <i>Applied Water Science</i>, 15, 98.</li>
+        <li>Mabrouk et al. (2018). <i>Water</i>, 10(11), 1690.</li>
+        <li>Visser &amp; Brühl (2018). <i>Daily Maverick</i>.</li>
+        <li>Arab Contractors (2021). Bahr El-Baqar water treatment plant.</li>
+        <li>UN-Water (2023). SDG 6 synthesis report.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Qatra – a GEO217 student project, Alamein International University, Fall 2026. #SDGs #AIU</div>
+</footer>
+
+<script>
+(function(){
+  var fill=document.getElementById('fill'),ty=document.getElementById('tyear'),tv=document.getElementById('tval');
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function setToday(){fill.style.height='24.5%';ty.textContent='2026';tv.textContent='< 500 m³';}
+  if(reduce){setToday();}else{setTimeout(setToday,700);}
+
+  var Q=[
+    {id:'shower',label:'Shower length (minutes a day)',min:0,max:30,step:1,val:10,unit:'min',
+     modes:[['Standard shower head',9],['Low-flow / aerator',6]],per:'person',calc:function(v,r){return v*r}},
+    {id:'toilet',label:'Toilet flushes a day',min:0,max:12,step:1,val:5,unit:'',
+     modes:[['Older cistern',9],['Dual-flush',4.5]],per:'person',calc:function(v,r){return v*r}},
+    {id:'wudu',label:'Wudu or hand-and-face washes a day',min:0,max:8,step:1,val:5,unit:'',
+     modes:[['Tap left running',5],['Tap closed between steps',1.5]],per:'person',calc:function(v,r){return v*r}},
+    {id:'teeth',label:'Teeth brushing a day',min:0,max:4,step:1,val:2,unit:'',
+     modes:[['Tap running',6],['Cup of water',0.5]],per:'person',calc:function(v,r){return v*r}},
+    {id:'dishes',label:'Dishwashing sessions a day (whole home)',min:0,max:5,step:1,val:2,unit:'',
+     modes:[['Under running tap',60],['Filled basin',20]],per:'home',calc:function(v,r){return v*r}},
+    {id:'laundry',label:'Laundry loads a week (whole home)',min:0,max:14,step:1,val:4,unit:'',
+     modes:[['Top-loader',80],['Front-loader, full loads',50]],per:'home',calc:function(v,r){return v*r/7}},
+    {id:'floor',label:'Balcony, stairs or street washed a week',min:0,max:7,step:1,val:2,unit:'',
+     modes:[['With a hose',150],['Bucket and mop',15]],per:'home',calc:function(v,r){return v*r/7}},
+    {id:'car',label:'Car washes a week',min:0,max:7,step:1,val:1,unit:'',
+     modes:[['With a hose',300],['Bucket and cloth',40]],per:'home',calc:function(v,r){return v*r/7}},
+    {id:'leak',label:'Dripping taps at home',min:0,max:5,step:1,val:1,unit:'',
+     modes:[['Not fixed',15],['Fixed',0]],per:'home',calc:function(v,r){return v*r}},
+    {id:'people',label:'People living in your home',min:1,max:12,step:1,val:4,unit:'',modes:null}
+  ];
+  var state={};
+  var qs=document.getElementById('qs');
+  Q.forEach(function(q){
+    state[q.id]={v:q.val,m:0};
+    var d=document.createElement('div');d.className='q';
+    var html='<label class="t" for="r-'+q.id+'">'+q.label+'</label><div class="row"><input type="range" id="r-'+q.id+'" min="'+q.min+'" max="'+q.max+'" step="'+q.step+'" value="'+q.val+'"><output id="o-'+q.id+'">'+q.val+'</output></div>';
+    if(q.modes){
+      html+='<div class="seg" role="group" aria-label="'+q.label+' habit">';
+      q.modes.forEach(function(m,i){html+='<button type="button" data-q="'+q.id+'" data-m="'+i+'" aria-pressed="'+(i===0)+'">'+m[0]+'</button>'});
+      html+='</div>';
+    }
+    d.innerHTML=html;qs.appendChild(d);
+  });
+  qs.addEventListener('input',function(e){
+    if(e.target.type!=='range')return;
+    var id=e.target.id.slice(2);state[id].v=+e.target.value;
+    document.getElementById('o-'+id).textContent=e.target.value;render();
+  });
+  qs.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-q]');if(!b)return;
+    var id=b.dataset.q;state[id].m=+b.dataset.m;
+    b.parentNode.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+    render();
+  });
+  var short={shower:'Shower',toilet:'Toilet',wudu:'Wudu',teeth:'Teeth',dishes:'Dishes',laundry:'Laundry',floor:'Floors',car:'Car',leak:'Leaks'};
+  function fmt(n){return Math.round(n).toLocaleString('en-US')}
+  function compute(best){
+    var ppl=state.people.v,parts={},tot=0;
+    Q.forEach(function(q){
+      if(!q.modes)return;
+      var m=best?q.modes.length-1:state[q.id].m;
+      var l=q.calc(state[q.id].v,q.modes[m][1]);
+      if(q.per==='home')l=l/ppl;
+      parts[q.id]=l;tot+=l;
+    });
+    return {tot:tot,parts:parts};
+  }
+  function render(){
+    var c=compute(false),b=compute(true);
+    document.getElementById('total').textContent=fmt(c.tot);
+    var v=document.getElementById('verdict');
+    if(c.tot<=100){v.textContent='Within the UN range of 50–100 litres a day for basic needs. Great job.';v.style.color='var(--papyrus)';}
+    else if(c.tot<=180){v.textContent='Above the 50–100 litre basic-needs range. A few habits would bring you down.';v.style.color='var(--sun)';}
+    else{v.textContent='Well above the 50–100 litre basic-needs range. Big savings are possible.';v.style.color='var(--alert)';}
+    var max=Math.max.apply(null,Object.values(c.parts).concat([1]));
+    var bars='';
+    Object.keys(c.parts).sort(function(a,z){return c.parts[z]-c.parts[a]}).forEach(function(k){
+      bars+='<div class="bar"><span>'+short[k]+'</span><span class="track"><i style="width:'+(c.parts[k]/max*100)+'%"></i></span><span>'+fmt(c.parts[k])+' L</span></div>';
+    });
+    document.getElementById('bars').innerHTML=bars;
+    var diff=c.tot-b.tot,s=document.getElementById('save');
+    if(diff<1){s.innerHTML='You’re already using the careful option for every habit.';}
+    else{
+      var yr=diff*365/1000;
+      s.innerHTML='Switching every habit to the careful option saves <strong>'+fmt(diff)+' L a day</strong>, about <strong>'+yr.toFixed(1)+' m³ a year</strong> for you alone, or '+(yr*state.people.v).toFixed(1)+' m³ for your household.';
+    }
+  }
+  render();
+
+  var habits=[
+    ['Shower in 5 minutes or less','Saves about 45 L a day with a standard head'],
+    ['Turn the tap off while brushing','Use a cup instead'],
+    ['Close the tap between wudu steps','Same purity, a fraction of the water'],
+    ['Wash dishes in a filled basin','Instead of under a running tap'],
+    ['Run only full laundry loads','Fewer loads, same clean clothes'],
+    ['Clean floors and balconies with a bucket','Never a hose'],
+    ['Fix or report one dripping tap','A drip can waste 15 L a day'],
+    ['Share Qatra with three friends','Awareness is how Cape Town did it']
+  ];
+  var KEY='qatra-challenge',saved=[];
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'[]')||[]}catch(e){saved=[]}
+  var ul=document.getElementById('chal');
+  habits.forEach(function(h,i){
+    var li=document.createElement('li');
+    li.innerHTML='<label><input type="checkbox" data-i="'+i+'"'+(saved[i]?' checked':'')+'><span>'+h[0]+'<small>'+h[1]+'</small></span></label>';
+    ul.appendChild(li);
+  });
+  function prog(){
+    var boxes=ul.querySelectorAll('input'),n=0,arr=[];
+    boxes.forEach(function(b){arr.push(b.checked);if(b.checked)n++});
+    document.getElementById('pcount').textContent=n+' of '+boxes.length+' habits';
+    document.getElementById('pbar').style.width=(n/boxes.length*100)+'%';
+    try{localStorage.setItem(KEY,JSON.stringify(arr))}catch(e){}
+  }
+  ul.addEventListener('change',prog);prog();
+
+  var quiz=[
+    ['About how much water does each Egyptian have per year today?',['Over 2,000 m³','About 1,000 m³','Under 500 m³','About 5,000 m³'],2,'Ahram Online reported in June 2026 that the share has fallen below 500 m³, half the 1,000 m³ water-poverty line.'],
+    ['Which sector uses most of Egypt’s fresh water?',['Industry','Agriculture','Households','Tourism'],1,'Farming uses roughly 80%, mostly through flood irrigation.'],
+    ['How does sea-level rise threaten the Nile Delta?',['It adds fresh water','It pushes salt water into groundwater and soil','It lowers temperatures','It has no effect'],1,'Saltwater intrusion salinizes the Delta aquifer; over-pumping groundwater makes it worse.'],
+    ['How much water can a standard shower use in 10 minutes?',['About 10 L','About 30 L','About 90 L','About 500 L'],2,'At roughly 9 L a minute, a 10-minute shower uses about 90 L.'],
+    ['Which two SDGs does this project target?',['SDG 1 and 2','SDG 6 and 13','SDG 4 and 5','SDG 8 and 9'],1,'SDG 6 is clean water and sanitation; SDG 13 is climate action.']
+  ];
+  var qi=0,score=0,box=document.getElementById('qcard');
+  function showQ(){
+    if(qi>=quiz.length){
+      box.innerHTML='<h3>You scored '+score+' of '+quiz.length+'</h3><p>'+(score>=4?'You know your water facts. Now try the challenge.':'Every answer is a fact worth sharing. Try again or take the challenge.')+'</p><button class="btn" id="again" type="button">Try again</button>';
+      document.getElementById('again').onclick=function(){qi=0;score=0;showQ()};return;
+    }
+    var q=quiz[qi],h='<div class="meta">Question '+(qi+1)+' of '+quiz.length+'</div><h3>'+q[0]+'</h3><div class="opts">';
+    q[1].forEach(function(o,i){h+='<button type="button" data-i="'+i+'">'+o+'</button>'});
+    h+='</div><p class="fb" id="fb"></p>';
+    box.innerHTML=h;
+    box.querySelector('.opts').onclick=function(e){
+      var b=e.target.closest('button');if(!b||this.dataset.done)return;this.dataset.done=1;
+      var i=+b.dataset.i,ok=i===q[2];if(ok)score++;
+      this.querySelectorAll('button')[q[2]].classList.add('right');if(!ok)b.classList.add('wrong');
+      document.getElementById('fb').textContent=(ok?'Correct. ':'Not quite. ')+q[3];
+      var n=document.createElement('button');n.className='btn';n.type='button';n.textContent=qi===quiz.length-1?'See my score':'Next question';
+      n.onclick=function(){qi++;showQ()};box.appendChild(n);n.focus();
+    };
+  }
+  showQ();
+})();
+</script>
+</body>
+</html>
